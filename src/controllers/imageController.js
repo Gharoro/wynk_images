@@ -1,4 +1,5 @@
 const ImageService = require("../services/imageService");
+const logger = require("../utils/logger");
 const ApiResponses = require("../utils/response");
 
 class ImageController {
@@ -12,6 +13,7 @@ class ImageController {
         imageData
       );
     } catch (error) {
+      logger.error(`Image upload failed: ${error.message}`);
       return ApiResponses.error(res, error.message);
     }
   }
@@ -22,6 +24,7 @@ class ImageController {
       const images = await ImageService.getAllImages();
       return ApiResponses.success(res, "Images retrieved successfully", images);
     } catch (error) {
+      logger.error(`Error fetching images: ${error.message}`);
       return ApiResponses.error(res, error.message);
     }
   }

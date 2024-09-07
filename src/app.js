@@ -4,13 +4,17 @@ const helmet = require("helmet");
 const imageRoutes = require("./routes/imageRoutes");
 const AppDataSource = require("./config/database");
 const errorHandler = require("./middlewares/errorMiddleware");
+const logger = require("./utils/logger");
 
 const app = express();
 
 // Initialize database connection
 AppDataSource.initialize()
   .then(() => console.log("Database connected"))
-  .catch((err) => console.error("Database connection error:", err));
+  .catch((err) => {
+    logger.error(`Database connection error: ${err}`);
+    console.error("Database connection error:", err);
+  });
 
 // Middleware
 app.use(cors());
