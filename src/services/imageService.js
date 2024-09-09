@@ -43,7 +43,14 @@ class ImageService {
 
     // Resize and process image using Sharp (resize to 500x500 and convert to webp for optimized storage)
     const processedBuffer = await sharp(file.buffer)
-      .resize(500, 500)
+      .resize(500, 500) // Resize to 500x500
+      .extract({ width: 500, height: 500, left: 0, top: 0 }) // Crop center of the image
+      .modulate({
+        brightness: 1.2,  // 20% brighter
+        contrast: 1.3,    // 30% more contrast
+        saturation: 1.1   // 10% more saturated
+      })
+      .sharpen() // sharpen image
       .toFormat("webp") // Convert to WebP format for optimized storage
       .toBuffer();
 
